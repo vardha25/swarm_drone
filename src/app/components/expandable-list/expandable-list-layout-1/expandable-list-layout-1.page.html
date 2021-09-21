@@ -1,0 +1,42 @@
+<!-- EXPANDABLE --COMPONENT 1 -->
+<ion-grid class="ion-no-padding">
+  <ion-row *ngIf="data != null">
+    <ion-col size="12" class="ion-no-padding">
+      <!-- Header List Big Image -->
+      <ion-list class="ion-padding-horizontal">
+        <ul class="collapsible ion-no-padding">
+          <li *ngFor="let group of data.items;" class="ion-margin-top border border-radius">
+            <!-- List big image Header -->
+            <div class="collapsible-header" (click)="toggleGroup(group)">
+              <ion-item lines="none" class="default-item">
+                <ion-label>
+                  <h2 class="text-color-primary text-size-md ion-text-wrap">{{group.title}}</h2>
+                </ion-label>
+                <ion-icon class="icon-color-accent" name="play-circle-sharp"></ion-icon>
+              </ion-item>
+            </div><!-- End List big image Header -->
+            <!-- LIST OPEN ACCORDIAN BODY  -->
+            <div class="item-accordion" [ngClass]="{'active': group.show }" [hidden]="!group.show">
+              <ion-item lines="none" class="default-item transparent"
+                *ngFor="let item of group.items;" (click)="onItemClickFunc(item, $event)">
+                <!-- Avatar -->
+                <ion-avatar slot="start">
+                  <img [src]="item.avatar" [alt]="item.title" />
+                </ion-avatar>
+                <ion-label>
+                  <!-- Subtitle Title -->
+                  <h2 class="text-color-primary text-size-md  ion-text-wrap">{{item.title}}</h2>
+                </ion-label>
+                <!-- Chip -->
+                <ion-chip class="{{item.className}}" slot="end">
+                  <ion-label>{{item.text}}</ion-label>
+                </ion-chip>
+              </ion-item>
+            </div>
+            <!-- End List big image Body -->
+          </li>
+        </ul>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-grid>

@@ -1,0 +1,23 @@
+<ion-app>
+    <!-- Header -->
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ion-text-capitalize">{{data.toolbarTitle}}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <!-- Content -->
+    <ion-content>
+
+      <!-- PAGE 1 -->
+      <expandable-list-layout-1
+        [data]="data"
+        (onFavorite)="onFavorite($event)"
+        (onLike)="onLike($event)"
+        (onShare)="onShare($event)"
+        (onItemClick)="onItemClick($event)">
+      </expandable-list-layout-1>
+    </ion-content>
+</ion-app>

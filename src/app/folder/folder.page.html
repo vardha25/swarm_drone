@@ -1,0 +1,17 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Swarm Drone - SODE - 110</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()"> <ion-icon name="log-out"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container" style="height:100%">
+    <parallax-layout-1 [data]="data" [url]="url" [package]="package"></parallax-layout-1>
+  </div>
+</ion-content>

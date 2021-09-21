@@ -1,0 +1,70 @@
+<ion-content scrollEvents="true" parallax-header >
+  <div class="header-image">
+    <!-- Parallax Image -->
+    <!-- <ion-img [src]="data.imge"></ion-img> -->
+    <iframe *ngIf="data?.type=='home' || data?.type=='svl'" [src]="urlpaste()" style="height:500px;" width="100%"></iframe>
+    <!-- <app-gmap *ngIf="data?.type=='delivery'"></app-gmap> -->
+    <!-- <div *ngIf="data?.type=='delivery'" class="map-wrapper">
+      <div id="map_center">
+        <img src="assets/icon/location-marker.png" />
+      </div>
+      <div #map id="map"></div>
+    </div> -->
+    <ion-content  [fullscreen]="true">
+
+      <div *ngIf="data?.type=='delivery'" class="map-wrapper">
+        <!-- <div id="map_center">
+          <img src="assets/icon/location-marker.png" />
+        </div> -->
+        <div #map id="map"></div>
+      </div>
+    
+    
+    </ion-content>
+    
+  </div>
+  <ion-grid class="ion-no-padding">
+    <ion-row >
+      <ion-col size="12" class="ion-no-padding">
+        <ion-card class="border border-radius no-box-shadow ion-padding">
+          <!-- <ion-item lines="none" class="transparent">
+            <ion-badge slot="start">{{data?.price}}</ion-badge>
+            <span class="text-size-sm font-medium text-color-primary" slot="end">
+              {{data?.instock}}
+            </span>
+          </ion-item> -->
+          <ion-card-content>
+            <h1 class="text-size-lg font-regular text-color-primary ion-text-wrap ion-padding-bottom">{{data.title}}
+            </h1>
+            <h1 class="text-size-xs font-regular text-color-secondary ion-text-wrap">{{data?.description || address}}</h1>
+          </ion-card-content>
+          <ion-col *ngIf="data?.type=='delivery' || data?.type=='svl'" size="12" class="ion-text-center">
+            <ion-item  lines="none" id="projectTitle">
+              <ion-label>Latitude</ion-label>
+              <ion-input name="lat" [(ngModel)]="lat" class="text-input" placeholder="eg: 22.2482009"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col *ngIf="data?.type=='delivery' || data?.type=='svl'">
+            <ion-item  lines="none" id="projectTitle">
+              <ion-label>Longitude</ion-label>
+              <ion-input name="lng" [(ngModel)]="lng" class="text-input" placeholder="eg: 7.541542"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-button class="default-button color-accent ion-text-capitalize ion-margin-top box-shadow" expand="block"
+            (click)="onButtonClick()">
+            {{data?.button}}</ion-button>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" size-md="6" size-lg="4" class="ion-no-padding" *ngFor="let item of data.items">
+        <ion-card class="no-box-shadow ion-padding ion-text-center border border-radius"
+          (click)="onItemClickFunc(item, $event)">
+          <!-- Image List Product -->
+          <img [src]="item.image">
+          <h2 class="text-size-lg ion-padding-top ion-no-margin text-color-primary">{{item?.title}}</h2>
+          <span class="text-size-xs">{{item?.numberProducts}}</span>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

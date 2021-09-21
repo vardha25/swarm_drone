@@ -1,0 +1,66 @@
+/* Style component 1
+========================================================*/
+
+ul.collapsible li {
+  list-style: none;
+}
+
+
+.collapsible-header {
+
+
+  .icon-small {
+    color: var(--dv-text-secondary);
+  }
+
+  .social-share {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+  }
+}
+
+/* Settings Accordion "OPEN" */
+
+.item-accordion {
+  -moz-transition: all 400ms;
+  -ms-transition: all 400ms;
+  -o-transition: all 400ms;
+  -webkit-transition: all 400ms;
+  transition: all 400ms;
+  max-height: 0;
+  display: block !important;
+  overflow: hidden;
+  background: var(--dv-gradient-linear);
+
+  ion-chip {
+    font-size: 12px;
+
+    &.tertiary {
+      background-color: rgba(14, 33, 61, 0.2);
+      color: #0E213D;
+    }
+
+    &.secondary {
+      background-color: rgba(29, 178, 147, 0.2);
+      color: #1DB293;
+    }
+
+    &.primary {
+      background-color: rgba(5, 107, 255, 0.2);
+      color: #056BFF;
+    }
+  }
+
+
+
+  &.active {
+    -moz-transition: all 400ms;
+    -ms-transition: all 400ms;
+    -o-transition: all 400ms;
+    -webkit-transition: all 400ms;
+    transition: all 400ms;
+    overflow: visible;
+    max-height: 999px;
+  }
+}

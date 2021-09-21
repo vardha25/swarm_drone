@@ -1,5 +1,7 @@
 {
   "name": "swarm_drone_tabs",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
