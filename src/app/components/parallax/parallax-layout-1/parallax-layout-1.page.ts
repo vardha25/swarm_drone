@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, OnChanges, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnChanges, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Platform } from '@ionic/angular';
@@ -7,12 +7,13 @@ import { HttpService } from 'src/app/core/services/http.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 declare var google;
+import * as $ from 'jquery'
 @Component({
   selector: 'parallax-layout-1',
   templateUrl: 'parallax-layout-1.page.html',
   styleUrls: ['parallax-layout-1.page.scss'],
 })
-export class ParallaxLayout1Page implements OnChanges,OnInit {
+export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
   @Input() data: any;
   @Input() button;
   @Input() url;
@@ -35,8 +36,68 @@ export class ParallaxLayout1Page implements OnChanges,OnInit {
     }
   }
 
+  ngAfterViewInit(){
+    $(document).ready(function() {
+      const $demo = document.getElementById("demo");
+          let processing = false;
+          document.addEventListener('DOMContentLoaded', function () {
+      $demo.addEventListener('click', () => {
+        debugger
+        if (processing) return;
+        let reverting = false;
+        processing = true;
+        const $endListener = document.createElement('div');
+        $endListener.classList.add('demo-transitionend-listener');
+        $demo.appendChild($endListener);
+        const layoutTrigger = $demo.offsetTop;
+        $demo.classList.add('s--processing');
+        
+        $endListener.addEventListener('transitionend', () => {
+          if (reverting) return;
+          reverting = true;
+          $demo.classList.add('s--reverting');
+        });
+        
+        setTimeout(() => {
+          $demo.removeChild($endListener);
+          $demo.classList.remove('s--processing', 's--reverting');
+          processing = false;
+        }, 10000);
+      });
+          })
+      });
+  }
+
   ngOnChanges(changes: { [propKey: string]: any }) {
     this.data = changes['data'].currentValue;
+
+
+  }
+
+  onClick(){
+    const $demo = document.getElementById("demo");
+          let processing = false;
+    if (processing) return;
+        let reverting = false;
+        processing = true;
+        this.startMission();
+        const $endListener = document.createElement('div');
+        $endListener.classList.add('demo-transitionend-listener');
+        $demo.appendChild($endListener);
+        const layoutTrigger = $demo.offsetTop;
+        $demo.classList.add('s--processing');
+        
+        $endListener.addEventListener('transitionend', () => {
+          if (reverting) return;
+          reverting = true;
+          $demo.classList.add('s--reverting');
+        });
+        
+        setTimeout(() => {
+          $demo.removeChild($endListener);
+          $demo.classList.remove('s--processing', 's--reverting');
+          processing = false;
+        }, 10000);
   }
 
   onAddToCartFunc(params) {
@@ -54,7 +115,7 @@ export class ParallaxLayout1Page implements OnChanges,OnInit {
   }
 
   urlpaste(){
-    this.url = "http://10.42.0.1:8000";
+    this.url = "http://10.42.0.1:8000/index.html";
     return this.sanitize.bypassSecurityTrustResourceUrl(this.url);
   }
 

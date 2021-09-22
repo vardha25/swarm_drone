@@ -34,6 +34,7 @@
     "cordova-browser": "6.0.0",
     "cordova-plugin-appavailability": "^0.4.2",
     "cordova-res": "^0.15.3",
+    "jquery": "^3.6.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
