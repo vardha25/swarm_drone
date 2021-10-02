@@ -23,6 +23,9 @@ export class AuthGuard {
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
     if (this.authUserService.isAuthenticated()) {
+      if(!localStorage.getItem('role')){
+        this.router.navigate(['/ask-role'])
+      }
       return true;
     } else {
       this.router.navigate(['/login']);

@@ -10,6 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class AppComponent {
   public selectedIndex = 0;
+  role=localStorage.getItem('role')
   public appPages = [
     {
       title: 'Home',

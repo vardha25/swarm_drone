@@ -27,14 +27,14 @@ export class LoginComponent implements OnInit {
     })
     if(user){
       this.authService.setUserDetails('data',JSON.stringify(user));
-      this.router.navigate(['/folder/Inbox']);
+      // this.router.navigate(['/folder/Inbox']);
+      this.router.navigate(['/ask-role'])
     } else {
       this.alertService.presentAlert("Inalid username or password","Error");
     }
     // this.authService.login(form.value).subscribe((res)=>{
     //   this.router.navigateByUrl('home');
     // });
-
   }
 
   initForm(){

@@ -1,0 +1,52 @@
+<!-- <ion-content no-padding no-bounce>
+  <ion-grid no-padding>
+    <ion-row>
+      <ion-col class="flex">
+        <ion-card class="border border-radius no-box-shadow ion-padding">
+          <ion-card-content>
+            <h1 class="text-size-lg font-regular text-color-primary ion-text-wrap pb-2">Select your Role
+            </h1>
+          </ion-card-content>
+          <ion-item  lines="none" id="projectTitle">
+            <ion-label>Latitude</ion-label>
+            <ion-input name="lat" [(ngModel)]="lat" class="text-input" placeholder="eg: 22.2482009"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col *ngIf="data?.type=='delivery' || data?.type=='svl'">
+          <ion-item  lines="none" id="projectTitle">
+            <ion-label>Longitude</ion-label>
+            <ion-input name="lng" [(ngModel)]="lng" class="text-input" placeholder="eg: 7.541542"></ion-input>
+          </ion-item>
+        </ion-col> 
+          <ion-button class="default-button color-accent ion-text-capitalize ion-margin-top box-shadow" expand="block"
+            (click)="selectRole('master')">
+            Master</ion-button>
+          <ion-button class="default-button color-accent ion-text-capitalize ion-margin-top box-shadow" expand="block"
+            (click)="selectRole('slave')">
+            Slave</ion-button>
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content> -->
+
+<ion-content padding>
+
+  <ion-row>
+    <ion-col>
+      <ion-card class="container">
+        <h4 >Select your Role</h4>
+        <form id="form" >
+            <ion-button color="secondary" class="default-button ion-text-capitalize ion-margin-top box-shadow" expand="block"
+            (click)="selectRole('master')">
+            Master</ion-button>
+          <ion-button color="success" class="default-buttont ion-text-capitalize ion-margin-top box-shadow" expand="block"
+            (click)="selectRole('slave')">
+            Slave</ion-button>
+        </form>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

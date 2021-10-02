@@ -14,9 +14,10 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { HttpRequestInterceptor } from './core/interceptor/http.interceptor';
 import { HttpService } from './core/services/http.service';
 import { LoginComponent } from './login/login.component';
+import { AskRolePage } from './pages/ask-role/ask-role.page';
 
 @NgModule({
-  declarations: [AppComponent,LoginComponent],
+  declarations: [AppComponent,LoginComponent,AskRolePage],
   entryComponents: [],
   imports: [BrowserModule, FormsModule,ReactiveFormsModule,IonicModule.forRoot(),HttpClientModule, AppRoutingModule],
   providers: [

@@ -26,6 +26,7 @@ export class AuthUserService {
   /** User logout **/
   logout() {
       localStorage.removeItem(this.UserDetails.Data);
+      localStorage.clear();
       this.router.navigate(['/login']);
   }
 

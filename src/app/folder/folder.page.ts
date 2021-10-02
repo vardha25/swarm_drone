@@ -12,6 +12,7 @@ export class FolderPage implements OnInit {
   data={type:'home',button:'Plan a Mission',description:'This will open up Mission Planner App where you can feed waypoints for the flight.'};
   url="http://10.42.0.1:8000/index.html";
   package = "com.michaeloborne.MissionPlanner"
+  role=localStorage.getItem('role')
 
   constructor(private activatedRoute: ActivatedRoute,private authService:AuthUserService) { }
 

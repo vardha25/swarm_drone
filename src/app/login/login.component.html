@@ -23,25 +23,34 @@
   </form>
 </ion-content> -->
 
-<ion-header id="header">
+<!-- <ion-header id="header">
   <ion-toolbar>
-    <ion-title>Swarm Drone Controller SODE - 110</ion-title>
+    <ion-title style="left: 0;">Swarm Drone Controller </ion-title>
+    <ion-title style="right: 0;">SODE-110</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content padding>
   <div id="header">
     <!-- <h1>Login</h1> -->
-    <img src="assets/Drone Swarm.jpg" />
+    <img src="assets/imgs/drone4.gif" />
   </div>
 
-  <form id="form" [formGroup]="loginForm" (ngSubmit)="login()">
-    <ion-item class="ion-margin-bottom">
-      <ion-input formControlName="username" name="username" type="text" placeholder="username" ngModel required></ion-input>
-    </ion-item>
-    <ion-item class="ion-margin-bottom">
-      <ion-input formControlName="password" name="password" type="password" placeholder="password" ngModel required></ion-input>
-    </ion-item>
-    <ion-button size="large" type="submit" [disabled]="loginForm.invalid" expand="block">Login</ion-button>
-  </form>
+  <ion-row>
+    <ion-col>
+      <ion-card class="container">
+        <h4 >Enter Credentials</h4>
+        <form id="form" [formGroup]="loginForm" (ngSubmit)="login()">
+          <ion-item class="ion-margin-bottom rounded">
+            <ion-input formControlName="username" name="username" type="text" placeholder="username" ngModel required></ion-input>
+          </ion-item>
+          <ion-item class="ion-margin-bottom rounded">
+            <ion-input formControlName="password" name="password" type="password" placeholder="password" ngModel required></ion-input>
+          </ion-item>
+          <ion-button size="large" type="submit" [disabled]="loginForm.invalid" expand="block">Login</ion-button>
+        </form>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
 </ion-content>
