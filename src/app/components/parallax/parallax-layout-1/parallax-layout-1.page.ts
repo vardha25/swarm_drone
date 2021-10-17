@@ -89,7 +89,7 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
     this.waypoints.push({lat:this.lat,lng:this.lng,height:this.height})
     this.lat='';
     this.lng='';
-    this.height='';
+    this.height='5';
   }
 
   ngAfterViewInit(){
