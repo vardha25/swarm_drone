@@ -28,7 +28,7 @@ export class AppComponent {
       icon: 'play-circle-outline'
     },
     {
-      title: 'Delivery',
+      title: 'Payload Delivery',
       url: '/mission/delivery',
       icon: 'play-circle-outline'
     }

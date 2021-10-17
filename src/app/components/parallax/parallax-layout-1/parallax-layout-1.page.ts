@@ -23,7 +23,7 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
   @Input() package;
   lat;
   lng;
-  height;
+  height="5";
   waypoints=[];
   // map: Leaflet.Map;
 
@@ -217,7 +217,7 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
 
   startDeliveryMission(){
     console.log(this.waypoints)
-    this.httpService.getData(`/command?lat=${+this.lat}&lng=${+this.lng}&height=${+this.height}`).subscribe((res)=>{
+    this.httpService.getData(`/delivery?lat=${+this.lat}&lng=${+this.lng}&height=${+this.height}`).subscribe((res)=>{
       console.log(res);
     })
   }
@@ -228,7 +228,7 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
     //   console.log(res);
     // })
     console.log(this.waypoints)
-    this.httpService.postData(`/command`,{waypoints:this.waypoints}).subscribe((res)=>{
+    this.httpService.postData(`/svl`,{waypoints:this.waypoints}).subscribe((res)=>{
       console.log(res);
     })
   }
