@@ -58,6 +58,18 @@ ion-col {
   }
 }
 
+.header-row {
+  background: #7163AA;
+  color:Black;
+  font-size: 18px;
+}
+
+ion-col {
+  // border: 1px solid #ECEEEF;
+  padding:5px;
+  
+}
+
 // Drone css
 // *, *:before, *:after {
 //   box-sizing: border-box;
@@ -105,7 +117,7 @@ $textAT: $stepAT / 5;
 $bgAT: 1s;
 $progressAT: 0.5s;
 
-$droneShiftX: ($demoW )* 0.85 - $droneLeft - 26px;
+$droneShiftX: ($demoW )* 0.85 - $droneLeft - 10px;
 $droneShiftXDelay: $stepAT * 1.2;
 $droneShiftXAT: $stepAT * 1.3;
 
@@ -126,9 +138,9 @@ $progressAnimDelay: $bgAnimDelay + 0.3s;
 
 #{$baseClass} {
   $bgTrans: background-color $bgAT;
-  position: relative;
+  // position: relative;
   top:20px;
-  width: $demoW;
+  width: 100%;
   left:15px;
   height: 52px;
   padding-left: $circleSize + $circleLeftPad;

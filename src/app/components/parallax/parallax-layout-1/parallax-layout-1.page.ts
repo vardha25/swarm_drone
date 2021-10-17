@@ -6,8 +6,11 @@ import { AuthUserService } from 'src/app/core/services/auth.service';
 import { HttpService } from 'src/app/core/services/http.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
+import * as Leaflet from 'leaflet';
+import { antPath } from 'leaflet-ant-path';
 declare var google;
 import * as $ from 'jquery'
+import { ParallaxService } from 'src/app/core/services/parallax-service';
 @Component({
   selector: 'parallax-layout-1',
   templateUrl: 'parallax-layout-1.page.html',
@@ -20,6 +23,9 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
   @Input() package;
   lat;
   lng;
+  height;
+  waypoints=[];
+  // map: Leaflet.Map;
 
   @Output() onItemClick = new EventEmitter();
   @Output() onAddToCart = new EventEmitter();
@@ -27,13 +33,36 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
   map: any;
   address: string;
 
-  constructor(private geolocation: Geolocation,private nativeGeocoder: NativeGeocoder,private platform:Platform,private httpService:HttpService,private iab: InAppBrowser,private sanitize:DomSanitizer,private authService:AuthUserService) { }
+  constructor(private geolocation: Geolocation,private paralaxService:ParallaxService,private nativeGeocoder: NativeGeocoder,private platform:Platform,private httpService:HttpService,private iab: InAppBrowser,private sanitize:DomSanitizer,private authService:AuthUserService) { }
 
 
   ngOnInit(){
-    if(this.data.type=='delivery'){
-    this.loadMap();
+    if(this.data.type=='delivery' || this.data.type=='svl'){
+    // this.loadMap();
+    // this.leafletMap();
+    if( navigator.geolocation ){
+       // Call getCurrentPosition with success and failure callbacks
+       navigator.geolocation.getCurrentPosition( (value)=>{
+         console.log("success value",value)
+         console.log(value?.coords?.latitude,value?.coords?.longitude);
+         this.lat=value?.coords?.latitude;
+          this.lng=value?.coords?.longitude;
+         this.locate()
+       } );
     }
+    else
+    {
+       alert("Sorry, your browser does not support geolocation services.");
+    }
+    }
+  }
+
+  add(){
+    this.paralaxService.addMarker.next({lat:this.lat,lng:this.lng})
+    this.waypoints.push({lat:this.lat,lng:this.lng,height:this.height})
+    this.lat='';
+    this.lng='';
+    this.height='';
   }
 
   ngAfterViewInit(){
@@ -42,7 +71,6 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
           let processing = false;
           document.addEventListener('DOMContentLoaded', function () {
       $demo.addEventListener('click', () => {
-        debugger
         if (processing) return;
         let reverting = false;
         processing = true;
@@ -73,6 +101,17 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
 
 
   }
+  getlatlng(event){
+    console.log("got latlng",event)
+    this.lat=+(event?.lat)?.toFixed(7);
+    this.lng=+(event?.lng)?.toFixed(7);
+    console.log(this.lat,this.lng)
+  }
+
+  locate(){
+    console.log("clicked")
+    this.paralaxService.setLatLng({lat:this.lat,lng:this.lng})
+  }
 
   onClick(){
     const $demo = document.getElementById("demo");
@@ -80,7 +119,11 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
     if (processing) return;
         let reverting = false;
         processing = true;
-        this.startMission();
+        if(this.data?.type=='delivery'){
+          this.startDeliveryMission();
+        } else if(this.data?.type=='svl'){
+          this.startSurvelliance();
+        }
         const $endListener = document.createElement('div');
         $endListener.classList.add('demo-transitionend-listener');
         $demo.appendChild($endListener);
@@ -138,73 +181,101 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
     if(this.data?.type=='home'){
       this.launchApp();
     }
-    else if(this.data?.type=='delivery' || this.data?.type=='svl'){
-      this.startMission();
+    else if(this.data?.type=='delivery'){
+      this.startDeliveryMission();
+    } else if(this.data?.type=='svl'){
+      this.startSurvelliance();
     }
   }
 
-  startMission(){
+  startDeliveryMission(){
+    console.log(this.waypoints)
+    this.httpService.getData(`/command?lat=${+this.lat}&lng=${+this.lng}&height=${+this.height}`).subscribe((res)=>{
+      console.log(res);
+    })
+  }
+
+  startSurvelliance(){
     console.log(this.lat,this.lng)
-    this.httpService.getData(`/command?lat=${+this.lat}&lng=${+this.lng}`).subscribe((res)=>{
+    // this.httpService.getData(`/command?lat=${+this.lat}&lng=${+this.lng}`).subscribe((res)=>{
+    //   console.log(res);
+    // })
+    console.log(this.waypoints)
+    this.httpService.postData(`/command`,{waypoints:this.waypoints}).subscribe((res)=>{
       console.log(res);
     })
   }
 
   loadMap() {
-    this.geolocation.getCurrentPosition().then((resp) => {
+    // console.log(this.map)
+    // this.geolocation.getCurrentPosition().then((resp) => {
 
-      this.lat = resp.coords.latitude;
-      this.lng = resp.coords.longitude;
+    //   this.lat = resp.coords.latitude;
+    //   this.lng = resp.coords.longitude;
 
-      let latLng = new google.maps.LatLng(this.lat,this.lng);
-      let mapOptions = {
-        center: latLng,
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
+    //   let latLng = new google.maps.LatLng(this.lat,this.lng);
+    //   let mapOptions = {
+    //     center: latLng,
+    //     zoom: 15,
+    //     mapTypeId: google.maps.MapTypeId.ROADMAP
+    //   }
 
-      this.getAddressFromCoords(this.lat, this.lng);
+    //   this.getAddressFromCoords(this.lat, this.lng);
 
-      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    //   this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-      this.map.addListener('dragend', () => {
+    //   this.map.addListener('dragend', () => {
 
-        this.lat = this.map.center.lat();
-        this.lng = this.map.center.lng();
+    //     this.lat = this.map.center.lat();
+    //     this.lng = this.map.center.lng();
 
-        this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng())
-      });
+    //     this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng())
+    //   });
 
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
+    // }).catch((error) => {
+    //   console.log('Error getting location', error);
+    // });
   }
 
   getAddressFromCoords(lattitude, longitude) {
-    console.log("getAddressFromCoords " + lattitude + " " + longitude);
-    let options: NativeGeocoderOptions = {
-      useLocale: true,
-      maxResults: 5
-    };
+    // console.log("getAddressFromCoords " + lattitude + " " + longitude);
+    // let options: NativeGeocoderOptions = {
+    //   useLocale: true,
+    //   maxResults: 5
+    // };
 
-    this.nativeGeocoder.reverseGeocode(lattitude, longitude, options)
-      .then((result: NativeGeocoderResult[]) => {
-        this.address = "";
-        let responseAddress = [];
-        for (let [key, value] of Object.entries(result[0])) {
-          if (value.length > 0)
-            responseAddress.push(value);
+    // this.nativeGeocoder.reverseGeocode(lattitude, longitude, options)
+    //   .then((result: NativeGeocoderResult[]) => {
+    //     this.address = "";
+    //     let responseAddress = [];
+    //     for (let [key, value] of Object.entries(result[0])) {
+    //       if (value.length > 0)
+    //         responseAddress.push(value);
 
-        }
-        responseAddress.reverse();
-        for (let value of responseAddress) {
-          this.address += value + ", ";
-        }
-        this.address = this.address.slice(0, -2);
-      })
-      .catch((error: any) => {
-        this.address = "Address Not Available!";
-      });
+    //     }
+    //     responseAddress.reverse();
+    //     for (let value of responseAddress) {
+    //       this.address += value + ", ";
+    //     }
+    //     this.address = this.address.slice(0, -2);
+    //   })
+    //   .catch((error: any) => {
+    //     this.address = "Address Not Available!";
+    //   });
 
+  }
+
+  leafletMap() {
+    // this.map = Leaflet.map('mapId').setView([28.644800, 77.216721], 5);
+    // Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //   // attribution: 'edupala.com © Angular LeafLet',
+    // }).addTo(this.map);
+
+    // Leaflet.marker([28.6, 77]).addTo(this.map).bindPopup('Delhi').openPopup();
+    // Leaflet.marker([34, 77]).addTo(this.map).bindPopup('Leh').openPopup();
+
+    // antPath([[28.644800, 77.216721], [34.1526, 77.5771]],
+    //   { color: '#FF0000', weight: 5, opacity: 0.6 })
+    //   .addTo(this.map);
   }
 }

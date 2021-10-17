@@ -5,11 +5,11 @@ import { GoogleMaps, GoogleMap, Environment, GoogleMapOptions, GoogleMapsEvent, 
 import * as L from 'leaflet';
 import { ParallaxService } from '../core/services/parallax-service';
 @Component({
-  selector: 'app-gmap',
-  templateUrl: './gmap.component.html',
-  styleUrls: ['./gmap.component.scss'],
+  selector: 'app-delivery-gmap',
+  templateUrl: './delivery-gmap.component.html',
+  styleUrls: ['./delivery-gmap.component.scss'],
 })
-export class GmapComponent implements OnInit, AfterViewInit,OnDestroy {
+export class DeliveryGmapComponent implements OnInit, AfterViewInit,OnDestroy {
 
   // @ViewChild('map') mapElement: ElementRef;
   // map: any;
@@ -90,7 +90,7 @@ export class GmapComponent implements OnInit, AfterViewInit,OnDestroy {
   ngAfterViewInit(): void {
     let that = this;
     this.initMap();
-    setTimeout(() => {
+    setTimeout(() => { 
       that.map.invalidateSize()
        }, 100)
 
@@ -101,7 +101,7 @@ export class GmapComponent implements OnInit, AfterViewInit,OnDestroy {
     // let mymap = L.DomUtil.get('map');
     // if(!mymap._leaflet_id){
       // this.map._leaflet_id = null;
-      this.map = L.map('map', {
+      this.map = L.map('dmap', {
         // center: [ 22.55057, 75.7625 ],
         zoom: 11
       });

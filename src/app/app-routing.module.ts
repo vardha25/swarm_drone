@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { LoginComponent } from './login/login.component';
+import { AskRolePage } from './pages/ask-role/ask-role.page';
 
 const routes: Routes = [
   
@@ -14,6 +15,10 @@ const routes: Routes = [
     path:'login', component:LoginComponent
   },
   {
+    path:'ask-role', component:AskRolePage,
+
+  },
+  {
     path: 'mission',
     canActivate:[AuthGuard],
     loadChildren: () => import('./mission/mission.module').then(m => m.MissionModule)
@@ -23,16 +28,16 @@ const routes: Routes = [
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule),
     canActivate:[AuthGuard]
   },
-  {
-    path: 'parallax',
-    canActivate:[AuthGuard],
-    loadChildren: () => import('./pages/item-details-parallax/item-details-parallax.module').then( m => m.ItemDetailsParallaxPageModule)
-  },
-  {
-    path: 'expandable',
-    canActivate:[AuthGuard],
-    loadChildren: () => import('./pages/item-details-expandable/item-details-expandable.module').then( m => m.ItemDetailsExpandablePageModule)
-  }
+  // {
+  //   path: 'parallax',
+  //   canActivate:[AuthGuard],
+  //   loadChildren: () => import('./pages/item-details-parallax/item-details-parallax.module').then( m => m.ItemDetailsParallaxPageModule)
+  // },
+  // {
+  //   path: 'expandable',
+  //   canActivate:[AuthGuard],
+  //   loadChildren: () => import('./pages/item-details-expandable/item-details-expandable.module').then( m => m.ItemDetailsExpandablePageModule)
+  // },
 ];
 @NgModule({
   imports: [

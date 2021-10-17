@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthUserService } from '../core/services/auth.service';
 import { HttpService } from '../core/services/http.service';
 
@@ -7,14 +7,12 @@ import { HttpService } from '../core/services/http.service';
   templateUrl: './delivery.page.html',
   styleUrls: ['./delivery.page.scss'],
 })
-export class DeliveryPage implements OnInit {
+export class DeliveryPage{
   lat;
   lng;
   constructor(private httpService:HttpService,private authService:AuthUserService) { }
 
   data={type:'delivery',button:'Start Mission',title:'Enter waypoint Coordinates'}
-  ngOnInit() {}
-
 
 
   logout(){

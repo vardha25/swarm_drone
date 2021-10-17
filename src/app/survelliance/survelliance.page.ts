@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthUserService } from '../core/services/auth.service';
 
 @Component({
@@ -6,15 +6,12 @@ import { AuthUserService } from '../core/services/auth.service';
   templateUrl: './survelliance.page.html',
   styleUrls: ['./survelliance.page.scss'],
 })
-export class SurvelliancePage implements OnInit {
+export class SurvelliancePage {
 
   data={type:'svl',button:'Start Mission',title:'Enter waypoint Coordinates'}
   constructor(private authService:AuthUserService) { }
 
-  ngOnInit() {}
-
   logout(){
     this.authService.logout();
   }
-
 }

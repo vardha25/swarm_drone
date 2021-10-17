@@ -4,7 +4,7 @@
 
 <ion-app>
   <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
+    <ion-menu *ngIf="showSideBar()" contentId="main-content" type="overlay">
       <ion-content>
               <ion-header>
           <ion-item class="transparent ion-text-center" lines="none">
@@ -23,7 +23,7 @@
 
         <ion-list id="inbox-list">
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item lines="none" class="transparent" (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
+            <ion-item lines="none" class="transparent" (click)="selectedIndex = i" replaceUrl="true" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
               <ion-label>
                <p class="text-size-md font-regular text-color-light">{{ p.title }}</p>
              </ion-label>

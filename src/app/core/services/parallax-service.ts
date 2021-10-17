@@ -1,10 +1,12 @@
 import { IService } from './IService';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ParallaxService implements IService {
 
+    latlng=new BehaviorSubject(null);
+    addMarker=new BehaviorSubject(null);
     constructor() { }
 
     getTitle = (): string => 'Parallax';
@@ -13,6 +15,10 @@ export class ParallaxService implements IService {
         return [
             { 'url': 'parallax/0', 'title': 'Product', 'theme': 'layout1' }
         ];
+    }
+
+    setLatLng(value){
+        this.latlng.next(value);
     }
 
     getDataForTheme = (menuItem: any): any => {

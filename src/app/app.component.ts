@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { Platform } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AuthUserService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +10,10 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  localstorage=localStorage;
   public selectedIndex = 0;
-  role=localStorage.getItem('role')
+  isAuthenticated;
+  role;
   public appPages = [
     {
       title: 'Home',
@@ -31,7 +34,8 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private authService:AuthUserService
   ) {
     this.initializeApp();
   }
@@ -43,7 +47,14 @@ export class AppComponent {
     });
   }
 
+  showSideBar(){
+    return this.authService.getRole() && this.authService.isAuthenticated()
+  }
+
+
   ngOnInit() {
+    this.isAuthenticated=this.authService.isAuthenticated();
+    this.role=this.authService.getRole();
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());

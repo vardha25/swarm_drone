@@ -36,15 +36,15 @@
     <img src="assets/imgs/drone4.gif" />
   </div>
 
-  <ion-row>
-    <ion-col>
+  <ion-row style="margin-top: 15px;" class="ion-align-items-center">
+    <ion-col size-sm="12" size-md="4" push-md="4">
       <ion-card class="container">
         <h4 >Enter Credentials</h4>
         <form id="form" [formGroup]="loginForm" (ngSubmit)="login()">
           <ion-item class="ion-margin-bottom rounded">
             <ion-input formControlName="username" name="username" type="text" placeholder="username" ngModel required></ion-input>
           </ion-item>
-          <ion-item class="ion-margin-bottom rounded">
+          <ion-item class="ion-margin-bottom rounded ">
             <ion-input formControlName="password" name="password" type="password" placeholder="password" ngModel required></ion-input>
           </ion-item>
           <ion-button size="large" type="submit" [disabled]="loginForm.invalid" expand="block">Login</ion-button>

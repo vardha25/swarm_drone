@@ -7,7 +7,8 @@ import { HttpService } from './http.service';
 @Injectable({ providedIn: 'root' })
 export class AuthUserService {
   UserDetails = {
-    Data:'data'
+    Data:'data',
+    Role:'role'
   }
   constructor(
     private router: Router,
@@ -18,6 +19,13 @@ export class AuthUserService {
   /** User authenticated or not **/
   isAuthenticated(): boolean {
     if (JSON.parse(localStorage.getItem(this.UserDetails.Data))) {
+      return true;
+    }
+    return false;
+  }
+
+  getRole():boolean{
+    if (localStorage.getItem(this.UserDetails.Role)) {
       return true;
     }
     return false;
