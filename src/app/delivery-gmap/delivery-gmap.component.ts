@@ -125,25 +125,25 @@ export class DeliveryGmapComponent implements OnInit, AfterViewInit,OnDestroy {
           that.locateMarker(res)
         }
       });
-      this.paralaxService.addMarker.subscribe((res) => {
-        if (res) {
-          this.addMarker(res)
-        }
-      })
+      // this.paralaxService.addMarker.subscribe((res) => {
+      //   if (res) {
+      //     this.locateMarker(res)
+      //   }
+      // })
     // }
 
 
   }
 
-  addMarker(latlng) {
-    // if (this.marker) {
-    //   this.map.removeLayer(this.marker);
-    // }
-    let marker: Marker;
-    marker = L.marker(latlng, { draggable: false,icon:this.greenIcon }).addTo(this.map);
-    this.sendlatlng.emit(latlng);
-    // this.map.panTo(new L.LatLng(latlng.lat, latlng.lng));
-  }
+  // addMarker(latlng) {
+  //   // if (this.marker) {
+  //   //   this.map.removeLayer(this.marker);
+  //   // }
+  //   let marker: Marker;
+  //   marker = L.marker(latlng, { draggable: false,icon:this.greenIcon }).addTo(this.map);
+  //   this.sendlatlng.emit(latlng);
+  //   // this.map.panTo(new L.LatLng(latlng.lat, latlng.lng));
+  // }
 
   locateMarker(latlng) {
     if (this.marker) {
