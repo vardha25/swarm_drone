@@ -4,11 +4,6 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Platform } from '@ionic/angular';
 import { AuthUserService } from 'src/app/core/services/auth.service';
 import { HttpService } from 'src/app/core/services/http.service';
-import { Geolocation, Geoposition, PositionError } from '@ionic-native/geolocation/ngx';
-import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
-import * as Leaflet from 'leaflet';
-import { antPath } from 'leaflet-ant-path';
-declare var google;
 import * as $ from 'jquery'
 import { ParallaxService } from 'src/app/core/services/parallax-service';
 @Component({
@@ -33,56 +28,56 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
   map: any;
   address: string;
 
-  constructor(private geolocation: Geolocation,private paralaxService:ParallaxService,private nativeGeocoder: NativeGeocoder,private platform:Platform,private httpService:HttpService,private iab: InAppBrowser,private sanitize:DomSanitizer,private authService:AuthUserService) { }
+  constructor(private geolocation: Geolocation,private paralaxService:ParallaxService,private platform:Platform,private httpService:HttpService,private iab: InAppBrowser,private sanitize:DomSanitizer,private authService:AuthUserService) { }
 
 
   ngOnInit(){
     if(this.data.type=='delivery' || this.data.type=='svl'){
-    // this.loadMap();
-    // this.leafletMap();
-    // if( navigator.geolocation ){
-    //    // Call getCurrentPosition with success and failure callbacks
-    //    navigator.geolocation.getCurrentPosition( (value)=>{
-    //      console.log("success value",value)
-    //      console.log(value?.coords?.latitude,value?.coords?.longitude);
-    //      this.lat=value?.coords?.latitude;
-    //       this.lng=value?.coords?.longitude;
-    //      this.locate()
-    //    } );
-    // }
-    // else
-    // {
-    //    alert("Sorry, your browser does not support geolocation services.");
-    // }
+    this.loadMap();
+    this.leafletMap();
+    if( navigator.geolocation ){
+       // Call getCurrentPosition with success and failure callbacks
+       navigator.geolocation.getCurrentPosition( (value)=>{
+         console.log("success value",value)
+         console.log(value?.coords?.latitude,value?.coords?.longitude);
+         this.lat=value?.coords?.latitude;
+          this.lng=value?.coords?.longitude;
+         this.locate()
+       } );
+    }
+    else
+    {
+       alert("Sorry, your browser does not support geolocation services.");
+    }
 
-    this.getUserPosition();
+    // this.getUserPosition();
     }
   }
 
-  getUserPosition() {
-    return new Promise((resolve, reject) => {
-    let options = {
-      maximumAge: 3000,
-      enableHighAccuracy: true
-    };
+  // getUserPosition() {
+  //   return new Promise((resolve, reject) => {
+  //   let options = {
+  //     maximumAge: 3000,
+  //     enableHighAccuracy: true
+  //   };
    
-    this.geolocation.getCurrentPosition(options).then((pos: Geoposition) => {
-    let currentPos = pos;
-    const location = {
-       lat: pos.coords.latitude,
-       lng: pos.coords.longitude,
-       time: new Date(),
-     };
-     this.lat=pos.coords.latitude;
-     this.lng=pos.coords.longitude;
-    console.log('loc', location);
-    resolve(pos);
-   }, (err: PositionError) => {
-     console.log("error : " + err.message);
-     reject(err.message);
-    });
-   });
-  }
+  //   this.geolocation.getCurrentPosition(options).then((pos: Geoposition) => {
+  //   let currentPos = pos;
+  //   const location = {
+  //      lat: pos.coords.latitude,
+  //      lng: pos.coords.longitude,
+  //      time: new Date(),
+  //    };
+  //    this.lat=pos.coords.latitude;
+  //    this.lng=pos.coords.longitude;
+  //   console.log('loc', location);
+  //   resolve(pos);
+  //  }, (err: PositionError) => {
+  //    console.log("error : " + err.message);
+  //    reject(err.message);
+  //   });
+  //  });
+  // }
 
   add(){
     this.paralaxService.addMarker.next({lat:this.lat,lng:this.lng})
