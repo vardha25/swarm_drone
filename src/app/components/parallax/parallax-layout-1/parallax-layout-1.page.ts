@@ -4,7 +4,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Platform } from '@ionic/angular';
 import { AuthUserService } from 'src/app/core/services/auth.service';
 import { HttpService } from 'src/app/core/services/http.service';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Geolocation, Geoposition, PositionError } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import * as Leaflet from 'leaflet';
 import { antPath } from 'leaflet-ant-path';
@@ -23,7 +23,7 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
   @Input() package;
   lat;
   lng;
-  height;
+  height="5";
   waypoints=[];
   // map: Leaflet.Map;
 
@@ -40,21 +40,48 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
     if(this.data.type=='delivery' || this.data.type=='svl'){
     // this.loadMap();
     // this.leafletMap();
-    if( navigator.geolocation ){
-       // Call getCurrentPosition with success and failure callbacks
-       navigator.geolocation.getCurrentPosition( (value)=>{
-         console.log("success value",value)
-         console.log(value?.coords?.latitude,value?.coords?.longitude);
-         this.lat=value?.coords?.latitude;
-          this.lng=value?.coords?.longitude;
-         this.locate()
-       } );
+    // if( navigator.geolocation ){
+    //    // Call getCurrentPosition with success and failure callbacks
+    //    navigator.geolocation.getCurrentPosition( (value)=>{
+    //      console.log("success value",value)
+    //      console.log(value?.coords?.latitude,value?.coords?.longitude);
+    //      this.lat=value?.coords?.latitude;
+    //       this.lng=value?.coords?.longitude;
+    //      this.locate()
+    //    } );
+    // }
+    // else
+    // {
+    //    alert("Sorry, your browser does not support geolocation services.");
+    // }
+
+    this.getUserPosition();
     }
-    else
-    {
-       alert("Sorry, your browser does not support geolocation services.");
-    }
-    }
+  }
+
+  getUserPosition() {
+    return new Promise((resolve, reject) => {
+    let options = {
+      maximumAge: 3000,
+      enableHighAccuracy: true
+    };
+   
+    this.geolocation.getCurrentPosition(options).then((pos: Geoposition) => {
+    let currentPos = pos;
+    const location = {
+       lat: pos.coords.latitude,
+       lng: pos.coords.longitude,
+       time: new Date(),
+     };
+     this.lat=pos.coords.latitude;
+     this.lng=pos.coords.longitude;
+    console.log('loc', location);
+    resolve(pos);
+   }, (err: PositionError) => {
+     console.log("error : " + err.message);
+     reject(err.message);
+    });
+   });
   }
 
   add(){
@@ -62,7 +89,7 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
     this.waypoints.push({lat:this.lat,lng:this.lng,height:this.height})
     this.lat='';
     this.lng='';
-    this.height='';
+    this.height='5';
   }
 
   ngAfterViewInit(){
@@ -190,7 +217,7 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
 
   startDeliveryMission(){
     console.log(this.waypoints)
-    this.httpService.getData(`/command?lat=${+this.lat}&lng=${+this.lng}&height=${+this.height}`).subscribe((res)=>{
+    this.httpService.getData(`/delivery?lat=${+this.lat}&lng=${+this.lng}&height=${+this.height}`).subscribe((res)=>{
       console.log(res);
     })
   }
@@ -201,7 +228,7 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
     //   console.log(res);
     // })
     console.log(this.waypoints)
-    this.httpService.postData(`/command`,{waypoints:this.waypoints}).subscribe((res)=>{
+    this.httpService.postData(`/svl`,{waypoints:this.waypoints}).subscribe((res)=>{
       console.log(res);
     })
   }

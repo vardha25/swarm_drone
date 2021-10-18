@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { Platform } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthUserService } from './core/services/auth.service';
+import { Router, RouterEvent } from '@angular/router';
+import { TabnavService } from './core/services/tabsnav.service';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +28,7 @@ export class AppComponent {
       icon: 'play-circle-outline'
     },
     {
-      title: 'Delivery',
+      title: 'Payload Delivery',
       url: '/mission/delivery',
       icon: 'play-circle-outline'
     }
@@ -35,7 +37,10 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private authService:AuthUserService
+    private authService:AuthUserService,
+    private router:Router,
+    private navctrl:NavController,
+    private tabNavService:TabnavService
   ) {
     this.initializeApp();
   }
@@ -44,6 +49,35 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      if(this.platform.is('android')){
+        this.router.events.subscribe((event:RouterEvent)=>{
+
+          if(event.url !== undefined){
+            if(this.tabNavService.lastTabName !== event.url && event.url !== this.tabNavService.currentBack){
+              // we put last tab name not equal event.url so the event don't go twice through array
+              // we put event.url not equal current back that is since when navcontroll in back button go back its considered a router event and we don't need it to be inserted again
+              this.tabNavService.pushTabHistory(event.url);
+            }
+            this.tabNavService.lastTabName = event.url;
+          }
+        });
+      }
+
+      this.platform.backButton.subscribeWithPriority(99999999,async()=>{
+        let pushHistoryCount = this.tabNavService.navigationProccess.length;
+        if(this.router.url.includes('tabs') == true && pushHistoryCount > 1){
+          let url = this.tabNavService.navigationProccess[pushHistoryCount-2].url;
+          this.tabNavService.navigationProccess.splice(pushHistoryCount-1, 1);
+          this.tabNavService.currentBack = url;
+          //currentBack should be assigned before navgiate back
+          this.navctrl.navigateBack(url);
+        }else if(this.router.url.includes('tabs') == true && pushHistoryCount <2){
+      // here is the array less than 2 which is one (you could make it ==0 but i make it if app glitches or something)
+      //so if app is on main start point it exit on back pressed
+      navigator['app'].exitApp();
+    }
+      });
+
     });
   }
 
