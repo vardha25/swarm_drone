@@ -33,8 +33,8 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
 
   ngOnInit(){
     if(this.data.type=='delivery' || this.data.type=='svl'){
-    this.loadMap();
-    this.leafletMap();
+    // this.loadMap();
+    // this.leafletMap();
     if( navigator.geolocation ){
        // Call getCurrentPosition with success and failure callbacks
        navigator.geolocation.getCurrentPosition( (value)=>{
