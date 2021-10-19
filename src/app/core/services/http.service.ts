@@ -11,6 +11,8 @@ import { environment } from '../../../environments/environment';
 })
 export class HttpService {
   baseUrl = 'http://10.42.0.1:5000';
+  baseUrl1='http://10.42.0.49:5000';
+  baseUrl2='http://10.42.0.181:5000';
   headers = new HttpHeaders({
   });
 
@@ -26,6 +28,22 @@ export class HttpService {
     }
 
     const apiUrl = `${this.baseUrl}${url}`;
+    if (backGroundUrl) {
+      // this.loaderServcie.backGroundUrls.push(apiUrl);
+    }
+    return this.http.get(apiUrl, { params: searchParams })
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  getDataByIP(ip,url: string, data?: any, backGroundUrl?: boolean): Observable<any> {
+    let searchParams = new HttpParams();
+    for (const key in data) {
+      searchParams = searchParams.append(key, data[key]);
+    }
+
+    const apiUrl = `${ip}${url}`;
     if (backGroundUrl) {
       // this.loaderServcie.backGroundUrls.push(apiUrl);
     }

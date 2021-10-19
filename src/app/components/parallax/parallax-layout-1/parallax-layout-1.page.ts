@@ -13,6 +13,8 @@ import { ParallaxService } from 'src/app/core/services/parallax-service';
 })
 export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
   @Input() data: any;
+  ip1='http://10.42.0.49:5000';
+  ip2='http://10.42.0.181:5000';
   @Input() button;
   @Input() url;
   @Input() package;
@@ -28,7 +30,7 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
   map: any;
   address: string;
 
-  constructor(private geolocation: Geolocation,private paralaxService:ParallaxService,private platform:Platform,private httpService:HttpService,private iab: InAppBrowser,private sanitize:DomSanitizer,private authService:AuthUserService) { }
+  constructor(private paralaxService:ParallaxService,private platform:Platform,private httpService:HttpService,private iab: InAppBrowser,private sanitize:DomSanitizer,private authService:AuthUserService) { }
 
 
   ngOnInit(){
@@ -212,9 +214,18 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
 
   startDeliveryMission(){
     console.log(this.waypoints)
-    this.httpService.getData(`/delivery?lat=${+this.lat}&lng=${+this.lng}&height=${+this.height}`).subscribe((res)=>{
+    this.httpService.getDataByIP(this.ip1,`/delivery?lat=${+this.lat}&lng=${+this.lng}&height=${+this.height}`).subscribe((res)=>{
       console.log(res);
     })
+    this.httpService.getDataByIP(this.ip2,`/delivery?lat=${+this.lat}&lng=${+this.lng}&height=${+this.height}`).subscribe((res)=>{
+      console.log(res);
+    })
+    setTimeout(()=>{
+      this.httpService.getData(`/delivery?lat=${+this.lat}&lng=${+this.lng}&height=${+this.height}`).subscribe((res)=>{
+        console.log(res);
+      })
+    },15000)
+
   }
 
   startSurvelliance(){
