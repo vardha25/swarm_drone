@@ -1,7 +1,7 @@
 export const USERS=[
     {
         username:'shivam123',
-        password:'Shivam@123'
+        password:'shivam@123'
     },
     {
         username:'swarm_drone',

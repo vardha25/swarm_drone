@@ -76,6 +76,15 @@ export class HttpService {
       .pipe(map((response: any) => {
         return response;
       }));
+  } 
+  
+  postsvlData(ip,url: string, data: any, formData?: boolean) {
+    const apiUrl = `${ip}${url}`;
+    const postData = !formData ? data : this.appendFormData(data);
+    return this.http.post(apiUrl, postData, { headers: this.headers })
+      .pipe(map((response: any) => {
+        return response;
+      }));
   }
 
   putData(url: string, data: any, formData?: boolean) {

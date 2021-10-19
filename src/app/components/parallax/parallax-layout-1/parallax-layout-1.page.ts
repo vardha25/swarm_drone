@@ -224,7 +224,7 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
       this.httpService.getData(`/delivery?lat=${+this.lat}&lng=${+this.lng}&height=${+this.height}`).subscribe((res)=>{
         console.log(res);
       })
-    },15000)
+    },10000)
 
   }
 
@@ -234,9 +234,19 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
     //   console.log(res);
     // })
     console.log(this.waypoints)
-    this.httpService.postData(`/svl`,{waypoints:this.waypoints}).subscribe((res)=>{
+   
+    this.httpService.postsvlData(this.ip1,`/svl`,{waypoints:this.waypoints}).subscribe((res)=>{
       console.log(res);
     })
+    this.httpService.postsvlData(this.ip2,`/svl`,{waypoints:this.waypoints}).subscribe((res)=>{
+      console.log(res);
+    })
+
+    setTimeout(()=>{
+      this.httpService.postData(`/svl`,{waypoints:this.waypoints}).subscribe((res)=>{
+        console.log(res);
+      })
+    },10000)
   }
 
   loadMap() {
