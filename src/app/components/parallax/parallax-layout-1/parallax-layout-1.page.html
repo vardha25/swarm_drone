@@ -63,25 +63,7 @@
               </ion-col>
             </ion-row> -->
         
-            <ion-row *ngIf="data?.type=='svl'" class="header-row">
-              <ion-col size="3">
-                <ion-text>Lat</ion-text>
-              </ion-col>
-        
-              <ion-col  size="3">
-                <ion-text>Long</ion-text>
-              </ion-col>
-        
-              <ion-col  size="3">
-                <ion-text>Alt</ion-text>
-              </ion-col>
-              <ion-col  size="3" >
-                <ion-text>
-                  
-                </ion-text>
-              </ion-col>
-            </ion-row>
-            <ion-row *ngIf="data?.type=='delivery'" class="header-row">
+            <ion-row *ngIf="data?.type=='delivery' || data?.type=='svl'" class="header-row">
               <ion-col size="4">
                 <ion-text>Latitude</ion-text>
               </ion-col>
@@ -114,11 +96,6 @@
                     <ion-text>{{point?.height}}</ion-text>
                   </ion-text>
                 </ion-col>
-                <ion-col *ngIf="data?.type=='svl'">
-                  <ion-text>
-                    
-                  </ion-text>
-                </ion-col>
             </ion-row>
         
             <ion-row >
@@ -139,14 +116,6 @@
                     <ion-input name="height" [(ngModel)]="height" class="text-input" type="number"></ion-input>
                   </ion-text>
                 </ion-col>
-                <ion-col *ngIf="data?.type=='svl'">
-                  <ion-text>
-                    <ion-button (click)="add()">
-                      <!-- <ion-icon slot="start" name="add"></ion-icon> -->
-                      <small>Add</small>
-                    </ion-button>
-                  </ion-text>
-                </ion-col>
             </ion-row>
         
           </ion-grid>
@@ -157,6 +126,10 @@
           <ion-button  *ngIf="data?.type=='home'" class="default-button color-accent ion-text-capitalize ion-margin-top box-shadow" expand="block"
             (click)="onButtonClick()">
             {{data?.button}}</ion-button>
+                <ion-button *ngIf="data?.type=='svl'" (click)="add()">
+                  <ion-icon name="pin"></ion-icon>
+                  <small>Add Waypoint</small>
+                </ion-button>
         </ion-card>
         <!-- <ion-content class="ion-text-capitalize ion-margin-top box-shadow mt-5 text-center" height="100%"> -->
 
