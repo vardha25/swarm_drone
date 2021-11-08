@@ -19,7 +19,7 @@ export class DeliveryPage{
     // });
    }
 
-  data={type:'delivery',button:'Start Mission',title:'Enter waypoint Coordinates'}
+  data={type:'delivery',button:'Start Mission',title:'Enter Waypoint Co-ordinates'}
 
 
   logout(){
