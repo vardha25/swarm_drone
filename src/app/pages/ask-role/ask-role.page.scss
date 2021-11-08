@@ -26,7 +26,7 @@ ion-toolbar {
 
   
     #form {
-      margin-top: 15%;
+      margin-top: 5%;
   
       ion-button {
         margin-top: 35px;
@@ -53,9 +53,15 @@ ion-toolbar {
     margin-bottom: 10px;  
 }
 
+
   h4{
-    color: black;
+    color: red;
     font-weight: bold;
+    text-decoration: underline;
+  }
+
+  .ion-color-secondary {
+    --ion-color-base: #32a530 !important;
   }
 
   #header {

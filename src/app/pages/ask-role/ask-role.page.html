@@ -36,14 +36,24 @@
   <ion-row class="ion-align-self-end ion-justify-content-between"  style="margin-top:25vh">
     <ion-col size-sm="12" size-md="4" push-md="4">
       <ion-card class="container">
-        <h4 >Select your Role</h4>
+        <h4 >Pl Ensure the following..</h4>
         <form id="form" >
-            <ion-button color="secondary" class="default-button ion-text-capitalize ion-margin-top box-shadow" expand="block"
+          <div >
+            
+              <ol style="text-align: left;">
+                <li>All Pre-Flight parameters are checked</li>
+                <li>Battery Voltage > 10.5 V</li>
+                <li>Motor Caps are properly tight</li>
+                <li>Safety Switch is ON</li>
+              </ol>
+              
+          </div>
+            <ion-button  color="secondary" class="default-button ion-text-capitalize ion-margin-top box-shadow" expand="block"
             (click)="selectRole('master')">
-            Master</ion-button>
-          <ion-button color="success" class="default-buttont ion-text-capitalize ion-margin-top box-shadow" expand="block"
+            I'm Ready to FLY !</ion-button>
+          <!-- <ion-button color="success" class="default-buttont ion-text-capitalize ion-margin-top box-shadow" expand="block"
             (click)="selectRole('slave')">
-            Slave</ion-button>
+            Slave</ion-button> -->
         </form>
       </ion-card>
     </ion-col>
