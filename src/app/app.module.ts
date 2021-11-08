@@ -19,7 +19,9 @@ import { AskRolePage } from './pages/ask-role/ask-role.page';
 @NgModule({
   declarations: [AppComponent,LoginComponent,AskRolePage],
   entryComponents: [],
-  imports: [BrowserModule, FormsModule,ReactiveFormsModule,IonicModule.forRoot(),HttpClientModule, AppRoutingModule],
+  imports: [BrowserModule, FormsModule,ReactiveFormsModule,IonicModule.forRoot({
+    hardwareBackButton: true
+  }),HttpClientModule, AppRoutingModule],
   providers: [
     StatusBar,
     SplashScreen,
@@ -31,8 +33,7 @@ import { AskRolePage } from './pages/ask-role/ask-role.page';
       provide: HTTP_INTERCEPTORS,
       useClass: HttpRequestInterceptor,
       multi: true
-    },
-    Geolocation
+    }
   ],
   bootstrap: [AppComponent],
 })
