@@ -13,10 +13,10 @@ export class DeliveryPage{
   lng;
   public subscription: any;
   constructor(private router:Router,private authService:AuthUserService,private platform:Platform,private navController: NavController) {
-    this.platform.backButton.subscribeWithPriority(10, () => {
-      console.log('Handler was called!');
-      this.router.navigate(['/folder/Inbox'])
-    });
+    // this.platform.backButton.subscribeWithPriority(10, () => {
+    //   console.log('Handler was called!');
+    //   this.router.navigate(['/folder/Inbox'])
+    // });
    }
 
   data={type:'delivery',button:'Start Mission',title:'Enter waypoint Coordinates'}
@@ -29,7 +29,8 @@ export class DeliveryPage{
   ionViewDidEnter() {
     this.subscription = this.platform.backButton.subscribe(() => {
       // navigator['app'].exitApp();
-      this.navController.back();
+      // this.navController.back();
+      this.router.navigate(['/folder/Inbox'])
     });
   }
 

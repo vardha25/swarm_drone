@@ -123,6 +123,8 @@ export class DeliveryGmapComponent implements OnInit, AfterViewInit,OnDestroy {
       that.paralaxService.latlng.subscribe((res) => {
         if (res) {
           that.locateMarker(res)
+        } else {
+          this.locateMarker({lat: 43.0741904,lng: -89.3809802})
         }
       });
       // this.paralaxService.addMarker.subscribe((res) => {

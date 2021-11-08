@@ -129,6 +129,9 @@ export class GmapComponent implements OnInit, AfterViewInit,OnDestroy {
         if (res) {
           this.addMarker(res)
         }
+        else {
+          this.locateMarker({lat: 43.0741904,lng: -89.3809802})
+        }
       })
     // }
 

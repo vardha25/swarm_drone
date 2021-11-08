@@ -13,10 +13,10 @@ export class SurvelliancePage {
   data={type:'svl',button:'Start Mission',title:'Enter waypoint Coordinates'}
   public subscription: any;
   constructor(private authService:AuthUserService, private platform:Platform,private router:Router,private navController: NavController) {
-    this.platform.backButton.subscribeWithPriority(10, () => {
-      console.log('Handler was called!');
-      this.router.navigate(['/folder/Inbox'])
-    });
+    // this.platform.backButton.subscribeWithPriority(10, () => {
+    //   console.log('Handler was called!');
+    //   this.router.navigate(['/folder/Inbox'])
+    // });
    }
 
   logout(){
@@ -26,7 +26,8 @@ export class SurvelliancePage {
   ionViewDidEnter() {
     this.subscription = this.platform.backButton.subscribe(() => {
       // navigator['app'].exitApp();
-      this.navController.back();
+      // this.navController.back();
+      this.router.navigate(['/folder/Inbox'])
     });
   }
 

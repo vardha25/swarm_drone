@@ -111,11 +111,7 @@ export class AppComponent {
       this.platform.backButton.subscribe(async () => {
   
         this.routerOutlets.forEach(async (outlet: IonRouterOutlet) => {
-          // if (outlet && outlet.canGoBack()) {
-          //   outlet.pop();
-  
-          // } else
-           if (this.router.url === '/folder/Inbox' || this.router.url === '/login') {
+         if (this.router.url === '/folder/Inbox' || this.router.url === '/login' || this.router.url === '/ask-role') {
             if (new Date().getTime() - this.lastTimeBackPress < this.timePeriodToExit) {
               // this.platform.exitApp(); // Exit from app
               navigator['app'].exitApp(); // work in ionic 4
@@ -131,7 +127,10 @@ export class AppComponent {
               // console.log(JSON.stringify(toast));
               this.lastTimeBackPress = new Date().getTime();
             }
-          }
+          } else if (outlet && outlet.canGoBack()) {
+            outlet.pop();
+  
+          } 
         });
       });
     }
