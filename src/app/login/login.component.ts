@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 import { USERS } from '../common/Mocks/LoginDB';
 import { AlertService } from '../core/services/alert.service';
 import { AuthUserService } from '../core/services/auth.service';
@@ -13,7 +14,8 @@ import { AuthUserService } from '../core/services/auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm:FormGroup;
-  constructor(private fb:FormBuilder,private router:Router,private alertService:AlertService,private authService:AuthUserService) { }
+  public subscription: any;
+  constructor(private fb:FormBuilder,private router:Router,private alertService:AlertService,private authService:AuthUserService,private platform:Platform) { }
 
   ngOnInit() {
     this.initForm();
@@ -42,6 +44,16 @@ export class LoginComponent implements OnInit {
       username:['',Validators.required],
       password:['',Validators.required]
     })
+  }
+
+  ionViewDidEnter() {
+    this.subscription = this.platform.backButton.subscribe(() => {
+      // navigator['app'].exitApp();
+    });
+  }
+
+  ionViewWillLeave() {
+    this.subscription.unsubscribe();
   }
 
 }
