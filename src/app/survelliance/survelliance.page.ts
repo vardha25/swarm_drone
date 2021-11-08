@@ -10,7 +10,7 @@ import { AuthUserService } from '../core/services/auth.service';
 })
 export class SurvelliancePage {
 
-  data={type:'svl',button:'Start Mission',title:'Enter waypoint Coordinates'}
+  data={type:'svl',button:'Start Mission',title:'Enter Waypoint Co-ordinates'}
   public subscription: any;
   constructor(private authService:AuthUserService, private platform:Platform,private router:Router,private navController: NavController) {
     this.platform.backButton.subscribeWithPriority(10, () => {
