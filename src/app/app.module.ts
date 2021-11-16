@@ -15,6 +15,11 @@ import { HttpRequestInterceptor } from './core/interceptor/http.interceptor';
 import { HttpService } from './core/services/http.service';
 import { LoginComponent } from './login/login.component';
 import { AskRolePage } from './pages/ask-role/ask-role.page';
+import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+
 
 @NgModule({
   declarations: [AppComponent,LoginComponent,AskRolePage],
@@ -33,7 +38,11 @@ import { AskRolePage } from './pages/ask-role/ask-role.page';
       provide: HTTP_INTERCEPTORS,
       useClass: HttpRequestInterceptor,
       multi: true
-    }
+    },
+    Geolocation,
+    NativeGeocoder,
+    AndroidPermissions,
+    LocationAccuracy,
   ],
   bootstrap: [AppComponent],
 })

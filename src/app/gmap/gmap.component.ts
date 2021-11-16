@@ -103,14 +103,14 @@ export class GmapComponent implements OnInit, AfterViewInit,OnDestroy {
       // this.map._leaflet_id = null;
       this.map = L.map('map', {
         // center: [ 22.55057, 75.7625 ],
-        zoom: 11
+        zoom: 15
       });
       const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         minZoom: 3,
         // attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       });
-      this.map.locate({setView: true, maxZoom: 11});
+      this.map.locate();
       tiles.addTo(this.map);
       this.map.on('click', function (e) {
   
@@ -130,7 +130,7 @@ export class GmapComponent implements OnInit, AfterViewInit,OnDestroy {
           this.addMarker(res)
         }
         else {
-          this.locateMarker({lat: 43.0741904,lng: -89.3809802})
+          this.locateMarker({lat: 22.0741904,lng: 75.3809802})
         }
       })
     // }

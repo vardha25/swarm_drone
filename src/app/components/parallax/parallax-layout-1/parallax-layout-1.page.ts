@@ -6,6 +6,9 @@ import { AuthUserService } from 'src/app/core/services/auth.service';
 import { HttpService } from 'src/app/core/services/http.service';
 import * as $ from 'jquery'
 import { ParallaxService } from 'src/app/core/services/parallax-service';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 @Component({
   selector: 'parallax-layout-1',
   templateUrl: 'parallax-layout-1.page.html',
@@ -30,7 +33,7 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
   map: any;
   address: string;
 
-  constructor(private paralaxService:ParallaxService,private platform:Platform,private httpService:HttpService,private iab: InAppBrowser,private sanitize:DomSanitizer,private authService:AuthUserService) { }
+  constructor(private paralaxService:ParallaxService,private androidPermissions:AndroidPermissions,private locationAccuracy:LocationAccuracy,private geolocation: Geolocation,private platform:Platform,private httpService:HttpService,private iab: InAppBrowser,private sanitize:DomSanitizer,private authService:AuthUserService) { }
 
 
   ngOnInit(){
@@ -49,37 +52,99 @@ export class ParallaxLayout1Page implements OnChanges,OnInit,AfterViewInit {
     }
     else
     {
-       alert("Sorry, your browser does not support geolocation services.");
+      //  alert("Sorry, your browser does not support geolocation services.");
     }
 
-    // this.getUserPosition();
+    this.checkGPSPermission();
     }
   }
 
-  // getUserPosition() {
-  //   return new Promise((resolve, reject) => {
-  //   let options = {
-  //     maximumAge: 3000,
-  //     enableHighAccuracy: true
-  //   };
-   
-  //   this.geolocation.getCurrentPosition(options).then((pos: Geoposition) => {
-  //   let currentPos = pos;
-  //   const location = {
-  //      lat: pos.coords.latitude,
-  //      lng: pos.coords.longitude,
-  //      time: new Date(),
-  //    };
-  //    this.lat=pos.coords.latitude;
-  //    this.lng=pos.coords.longitude;
-  //   console.log('loc', location);
-  //   resolve(pos);
-  //  }, (err: PositionError) => {
-  //    console.log("error : " + err.message);
-  //    reject(err.message);
-  //   });
-  //  });
-  // }
+  getGeolocation() {
+    // this.geolocation.getCurrentPosition().then((resp) => {
+
+    //   this.lat = resp.coords.latitude;
+    //   this.lng = resp.coords.longitude;
+    //   this.locate()
+    //   // this.getGeoencoder(resp.coords.latitude, resp.coords.longitude);
+
+    // }).catch((error) => {
+    //   alert('Error getting location' + JSON.stringify(error));
+    // });
+    if( navigator.geolocation ){
+        //  Call getCurrentPosition with success and failure callbacks
+         navigator.geolocation.getCurrentPosition( (value)=>{
+           console.log("success value",value)
+           console.log(value?.coords?.latitude,value?.coords?.longitude);
+           this.lat=value?.coords?.latitude;
+            this.lng=value?.coords?.longitude;
+           this.locate()
+         } );
+      }
+  }
+  checkGPSPermission() {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
+      result => {
+        if (result.hasPermission) {
+
+          //If having permission show 'Turn On GPS' dialogue
+          // this.askToTurnOnGPS();
+          this.getGeolocation()
+        } else {
+
+          //If not having permission ask for permission
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then((res)=>{
+            if(res.hasPermission)
+            this.getGeolocation()
+          });
+        }
+      },
+      err => {
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then((res)=>{
+          if(res.hasPermission)
+          this.getGeolocation()
+        });
+      }
+    );
+  }
+
+  requestGPSPermission() {
+    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+      if (canRequest) {
+        console.log("4");
+      } else {
+        //Show 'GPS Permission Request' dialogue
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+          .then(
+            (result) => {
+              // call method to turn on GPS
+              // this.askToTurnOnGPS();
+              if(!result.hasPermission){
+                this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(res=>{
+                  this.getGeolocation();
+                });
+              }
+            },
+            error => {
+              //Show alert if user click on 'No Thanks'
+              // alert('requestPermission Error requesting location permissions ' + error)
+              this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(res=>{
+                this.getGeolocation()
+              });
+            }
+          );
+      }
+    });
+  }
+
+  askToTurnOnGPS() {
+    this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
+      () => {
+        // When GPS Turned ON call method to get Accurate location coordinates
+        this.getGeolocation()
+      },
+      error => alert('Error requesting location permissions ' + JSON.stringify(error))
+    );
+  }
 
   add(){
     this.paralaxService.addMarker.next({lat:this.lat,lng:this.lng})
